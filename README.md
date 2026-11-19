@@ -14,7 +14,7 @@ Whenever a build breaks on an engineering team, the same three questions come up
 2. *Was this file even valid when it was checked in?*
 3. *The regression failed. Is it a new bug or something we've seen before?*
 
-Git answers the first one well for source code. Chip-design and hardware teams, though, deal with config files, parameter sheets, RTL and generated data, and they need extra guard rails on top of plain version control. Companies like Keysight build entire platforms for this ([Keysight SOS](https://www.keysight.com/blogs/en/tech/sim-des/design-data-management-inside-vs-code-with-keysight-sos)). I wanted to understand the core ideas by building a small version myself: content-addressed storage, check-in validation, revision diffs, and a regression loop that helps you debug instead of just printing red text.
+Git answers the first one well for source code. Chip-design and hardware teams, though, deal with config files, parameter sheets, RTL and generated data, and they need extra guard rails on top of plain version control. Whole commercial platforms exist just for this kind of design-data management. I wanted to understand the core ideas by building a small version myself: content-addressed storage, check-in validation, revision diffs, and a regression loop that helps you debug instead of just printing red text.
 
 DevTrack is that experiment. It's small enough to read in an afternoon, but it's tested properly (80+ tests across C++ and Python) and runs in CI.
 
@@ -185,8 +185,7 @@ DevTrack is a learning project, not a product, but the ideas behind it are used 
 
 | Where | How the ideas apply | Learn more |
 |---|---|---|
-| **Chip / IC design teams** | Versioning RTL, constraints and IP configs, with check-in rules before tapeout | [Keysight SOS design data management](https://www.keysight.com/tw/zh/products/software/pathwave-design-software/design-data-and-ip-management/design-data-management-sos.html) |
-| **Design management inside the editor** | Version control and governance without leaving VS Code | [Keysight blog: SOS in VS Code](https://www.keysight.com/blogs/en/tech/sim-des/design-data-management-inside-vs-code-with-keysight-sos) |
+| **Chip / IC design teams** | Versioning RTL, constraints and IP configs, with check-in rules before tapeout | [Product data management (overview)](https://en.wikipedia.org/wiki/Product_data_management) |
 | **Open-source chip flows** | Tracking the Tcl scripts, configs and reports an RTL-to-GDS flow produces | [OpenROAD-flow-scripts](https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts) |
 | **Hardware verification** | Running regressions on every change and triaging what failed | [cocotb](https://www.cocotb.org/) |
 | **ML / data projects** | Versioning datasets and model files by content hash, same idea as DevTrack's object store | [DVC](https://dvc.org/) |
