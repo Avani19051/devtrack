@@ -1,0 +1,58 @@
+[
+  {
+    "id": "KI-001",
+    "title": "Validation failed: missing required config key",
+    "signatures": ["required_keys", "missing required key", "KeyError", "version", "config"],
+    "cause": "A config artifact was committed without a mandatory top-level field such as name or version.",
+    "fix": "Add the missing key to the file, or update required_keys in .devtrack/rules if the rule is wrong."
+  },
+  {
+    "id": "KI-002",
+    "title": "Hash mismatch / corrupted object",
+    "signatures": ["corrupted object", "hash mismatch", "sha256", "checksum", "integrity"],
+    "cause": "A stored object no longer matches its SHA-256 name: disk corruption or a manual edit inside .devtrack/objects.",
+    "fix": "Run `devtrack verify`, restore the object from a backup or re-add the artifact from a known-good copy."
+  },
+  {
+    "id": "KI-003",
+    "title": "File not found / wrong working directory",
+    "signatures": ["FileNotFoundError", "No such file", "cannot open file", "not tracked", "path"],
+    "cause": "The test or tool ran from a different directory than expected, or the artifact path is misspelled.",
+    "fix": "Use paths relative to the project root and check the CWD in the CI job."
+  },
+  {
+    "id": "KI-004",
+    "title": "Numeric tolerance / assertion mismatch",
+    "signatures": ["AssertionError", "assert", "expected", "actual", "tolerance", "EXPECT_EQ", "mismatch", "Value of"],
+    "cause": "Output differs from the reference value, often from a changed default, rounding, or an off-by-one in a loop bound.",
+    "fix": "Diff the inputs between the last passing and first failing version (`devtrack diff`), then check boundary conditions."
+  },
+  {
+    "id": "KI-005",
+    "title": "Segmentation fault in native code",
+    "signatures": ["SEGFAULT", "Segmentation fault", "core dumped", "SIGSEGV", "null pointer"],
+    "cause": "Out-of-bounds access or use of an uninitialised/dangling pointer in C/C++ code.",
+    "fix": "Rebuild with -g -fsanitize=address,undefined and rerun the failing test to get the exact line."
+  },
+  {
+    "id": "KI-006",
+    "title": "Test timeout / hang",
+    "signatures": ["Timeout", "timed out", "deadlock", "hang", "TimeoutExpired"],
+    "cause": "An infinite loop, a blocked subprocess, or a lock that is never released.",
+    "fix": "Rerun with verbose logging and a lower timeout; check subprocess calls and loop exit conditions."
+  },
+  {
+    "id": "KI-007",
+    "title": "Database locked or schema mismatch",
+    "signatures": ["sqlite3", "OperationalError", "database is locked", "no such table", "IntegrityError", "UNIQUE constraint"],
+    "cause": "Two processes writing to metadata.db at once, or a store created by an older schema version.",
+    "fix": "Serialise writes (one writer at a time) and re-initialise or migrate the store."
+  },
+  {
+    "id": "KI-008",
+    "title": "Forbidden secret committed",
+    "signatures": ["forbid", "forbidden text", "password", "PRIVATE KEY", "api_key"],
+    "cause": "A credential was hard-coded into an artifact.",
+    "fix": "Remove the secret, rotate it, and load it from an environment variable instead."
+  }
+]

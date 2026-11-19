@@ -1,0 +1,19 @@
+# DevTrack validation rules (applied on every `devtrack add`).
+# See core/include/devtrack/validate.hpp for the format.
+
+# lower-case names with underscores, digits, at least one extension (e.g. alu_config.json)
+name_pattern=^[a-z0-9_]+(\.[a-z0-9]+)+$
+
+max_size_kb=2048
+
+# config files must declare what they are and which revision
+required_keys.json=name,version
+required_keys.yaml=name,version
+required_keys.ini=name,version
+
+# never commit credentials
+forbid=password=
+forbid=BEGIN PRIVATE KEY
+forbid=api_key=
+
+no_trailing_whitespace=true
